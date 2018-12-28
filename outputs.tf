@@ -1,3 +1,8 @@
+output "cloudwatch_event_rule_arn" {
+  value       = "${aws_cloudwatch_event_rule.default.arn}"
+  description = "The Amazon Resource Name (ARN) of the rule."
+}
+
 output "ecs_events_role_arn" {
   value       = "${aws_iam_role.ecs_events.arn}"
   description = "The Amazon Resource Name (ARN) specifying the CloudWatch Events IAM Role."
