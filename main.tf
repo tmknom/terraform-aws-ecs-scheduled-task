@@ -2,6 +2,52 @@
 #
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduled_tasks.html
 
+# CloudWatch Events IAM Role
+#
+# https://docs.aws.amazon.com/AmazonECS/latest/developerguide/CWE_IAM_role.html
+
+# https://www.terraform.io/docs/providers/aws/r/iam_role.html
+resource "aws_iam_role" "ecs_events" {
+  name               = "${local.ecs_events_iam_name}"
+  assume_role_policy = "${data.aws_iam_policy_document.ecs_events_assume_role_policy.json}"
+  path               = "${var.iam_path}"
+  description        = "${var.description}"
+  tags               = "${merge(map("Name", local.ecs_events_iam_name), var.tags)}"
+}
+
+data "aws_iam_policy_document" "ecs_events_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+  }
+}
+
+# https://www.terraform.io/docs/providers/aws/r/iam_policy.html
+resource "aws_iam_policy" "ecs_events" {
+  name        = "${local.ecs_events_iam_name}"
+  policy      = "${data.aws_iam_policy.aws_ecs_events_role.policy}"
+  path        = "${var.iam_path}"
+  description = "${var.description}"
+}
+
+data "aws_iam_policy" "aws_ecs_events_role" {
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
+}
+
+# https://www.terraform.io/docs/providers/aws/r/iam_role_policy_attachment.html
+resource "aws_iam_role_policy_attachment" "ecs_events" {
+  role       = "${aws_iam_role.ecs_events.name}"
+  policy_arn = "${aws_iam_policy.ecs_events.arn}"
+}
+
+locals {
+  ecs_events_iam_name = "${var.name}-ecs-events"
+}
+
 # ECS Task Definitions
 #
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
