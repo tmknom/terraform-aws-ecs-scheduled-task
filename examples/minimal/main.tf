@@ -1,10 +1,10 @@
 module "ecs_scheduled_task" {
-  source                    = "../../"
-  name                      = "example"
-  schedule_expression       = "rate(3 minutes)"
-  container_definitions     = "${data.template_file.default.rendered}"
-  cluster_arn               = "${aws_ecs_cluster.example.arn}"
-  subnets                   = ["${module.vpc.public_subnet_ids}"]
+  source                = "../../"
+  name                  = "example"
+  schedule_expression   = "rate(3 minutes)"
+  container_definitions = "${data.template_file.default.rendered}"
+  cluster_arn           = "${aws_ecs_cluster.example.arn}"
+  subnets               = ["${module.vpc.public_subnet_ids}"]
 
   assign_public_ip = true
 }
