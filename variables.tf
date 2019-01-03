@@ -5,7 +5,7 @@ variable "name" {
 
 variable "schedule_expression" {
   type        = "string"
-  description = "The scheduling expression.For example, cron(0 20 * * ? *) or rate(5 minutes)."
+  description = "The scheduling expression.For example, `cron(0 20 * * ? *)` or `rate(5 minutes)`."
 }
 
 variable "cluster_arn" {
