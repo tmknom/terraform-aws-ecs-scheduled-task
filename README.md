@@ -8,11 +8,46 @@ Terraform module template following [Standard Module Structure](https://www.terr
 
 ## Usage
 
-Named `terraform-<PROVIDER>-<NAME>`. Module repositories must use this three-part name format.
+### Minimal
 
-```sh
-curl -fsSL https://raw.githubusercontent.com/tmknom/terraform-aws-ecs-scheduled-task/master/install | sh -s terraform-aws-sample
-cd terraform-aws-sample && make install
+```hcl
+module "ecs_scheduled_task" {
+  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/1.0.0"
+  name                  = "example"
+  schedule_expression   = "rate(3 minutes)"
+  container_definitions = "${var.container_definitions}"
+  cluster_arn           = "${var.cluster_arn}"
+  subnets               = ["${var.subnets}"]
+}
+```
+
+### Complete
+
+```hcl
+module "ecs_scheduled_task" {
+  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/1.0.0"
+  name                  = "example"
+  schedule_expression   = "rate(3 minutes)"
+  container_definitions = "${var.container_definitions}"
+  cluster_arn           = "${var.cluster_arn}"
+  subnets               = ["${var.subnets}"]
+
+  ecs_task_execution_policy = "${var.ecs_task_execution_policy}"
+  is_enabled                = true
+  task_count                = 1
+  platform_version          = "1.3.0"
+  assign_public_ip          = true
+  security_groups           = []
+  cpu                       = 256
+  memory                    = 512
+  requires_compatibilities  = ["FARGATE"]
+  iam_path                  = "/service_role/"
+  description               = "This is example"
+
+  tags = {
+    Environment = "prod"
+  }
+}
 ```
 
 ## Examples
