@@ -1,11 +1,10 @@
 module "ecs_scheduled_task" {
-  source                    = "../../"
-  name                      = "example"
-  schedule_expression       = "rate(3 minutes)"
-  ecs_task_execution_policy = "${data.aws_iam_policy.ecs_task_execution.policy}"
-  container_definitions     = "${data.template_file.default.rendered}"
-  cluster_arn               = "${aws_ecs_cluster.example.arn}"
-  subnets                   = ["${module.vpc.public_subnet_ids}"]
+  source                = "../../"
+  name                  = "example"
+  schedule_expression   = "rate(3 minutes)"
+  container_definitions = "${data.template_file.default.rendered}"
+  cluster_arn           = "${aws_ecs_cluster.example.arn}"
+  subnets               = ["${module.vpc.public_subnet_ids}"]
 
   assign_public_ip = true
 }
@@ -30,10 +29,6 @@ locals {
 
 resource "aws_ecs_cluster" "example" {
   name = "ecs-scheduled-task"
-}
-
-data "aws_iam_policy" "ecs_task_execution" {
-  arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 module "vpc" {

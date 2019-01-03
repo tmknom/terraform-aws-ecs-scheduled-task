@@ -1,22 +1,22 @@
 module "ecs_scheduled_task" {
-  source                    = "../../"
-  name                      = "example"
-  schedule_expression       = "rate(3 minutes)"
-  ecs_task_execution_policy = "${data.aws_iam_policy.ecs_task_execution.policy}"
-  container_definitions     = "${data.template_file.default.rendered}"
-  cluster_arn               = "${aws_ecs_cluster.example.arn}"
-  subnets                   = ["${module.vpc.public_subnet_ids}"]
+  source                = "../../"
+  name                  = "example"
+  schedule_expression   = "rate(3 minutes)"
+  container_definitions = "${data.template_file.default.rendered}"
+  cluster_arn           = "${aws_ecs_cluster.example.arn}"
+  subnets               = ["${module.vpc.public_subnet_ids}"]
 
-  is_enabled               = true
-  task_count               = 1
-  platform_version         = "1.3.0"
-  assign_public_ip         = true
-  security_groups          = []
-  cpu                      = 256
-  memory                   = 512
-  requires_compatibilities = ["FARGATE"]
-  iam_path                 = "/service_role/"
-  description              = "This is example"
+  ecs_task_execution_policy = "${data.aws_iam_policy.ecs_task_execution.policy}"
+  is_enabled                = true
+  task_count                = 1
+  platform_version          = "1.3.0"
+  assign_public_ip          = true
+  security_groups           = []
+  cpu                       = 256
+  memory                    = 512
+  requires_compatibilities  = ["FARGATE"]
+  iam_path                  = "/service_role/"
+  description               = "This is example"
 
   tags = {
     Environment = "prod"

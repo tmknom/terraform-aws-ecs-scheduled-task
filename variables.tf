@@ -18,11 +18,6 @@ variable "subnets" {
   description = "The subnets associated with the task or service."
 }
 
-variable "ecs_task_execution_policy" {
-  type        = "string"
-  description = "The ecs task execution policy document. This is a JSON formatted string."
-}
-
 variable "container_definitions" {
   type        = "string"
   description = "A list of valid container definitions provided as a single valid JSON document."
@@ -74,6 +69,12 @@ variable "requires_compatibilities" {
   default     = ["FARGATE"]
   type        = "list"
   description = "A set of launch types required by the task. The valid values are EC2 and FARGATE."
+}
+
+variable "ecs_task_execution_policy" {
+  default     = ""
+  type        = "string"
+  description = "The ecs task execution policy document. This is a JSON formatted string."
 }
 
 variable "iam_path" {
