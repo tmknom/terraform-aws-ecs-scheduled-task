@@ -4,7 +4,7 @@
 [![GitHub tag](https://img.shields.io/github/tag/tmknom/terraform-aws-ecs-scheduled-task.svg)](https://registry.terraform.io/modules/tmknom/ecs-scheduled-task/aws)
 [![License](https://img.shields.io/github/license/tmknom/terraform-aws-ecs-scheduled-task.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Terraform module template following [Standard Module Structure](https://www.terraform.io/docs/modules/create.html#standard-module-structure).
+Terraform module which creates ECS Scheduled Task resources on AWS.
 
 ## Usage
 
