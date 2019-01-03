@@ -6,6 +6,16 @@
 
 Terraform module which creates ECS Scheduled Task resources on AWS.
 
+## Description
+
+Provision [ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html) and
+[CloudWatch Events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/WhatIsCloudWatchEvents.html).
+
+This module provides recommended settings:
+
+- Fargate launch type
+- Disable assign public ip address
+
 ## Usage
 
 ### Minimal
