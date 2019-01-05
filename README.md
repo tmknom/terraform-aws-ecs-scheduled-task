@@ -22,7 +22,7 @@ This module provides recommended settings:
 
 ```hcl
 module "ecs_scheduled_task" {
-  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/1.0.0"
+  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/1.1.0"
   name                  = "example"
   schedule_expression   = "rate(3 minutes)"
   container_definitions = "${var.container_definitions}"
@@ -35,7 +35,7 @@ module "ecs_scheduled_task" {
 
 ```hcl
 module "ecs_scheduled_task" {
-  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/1.0.0"
+  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/1.1.0"
   name                  = "example"
   schedule_expression   = "rate(3 minutes)"
   container_definitions = "${var.container_definitions}"
