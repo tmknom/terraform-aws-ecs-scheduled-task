@@ -53,6 +53,7 @@ module "ecs_scheduled_task" {
   requires_compatibilities  = ["FARGATE"]
   iam_path                  = "/service_role/"
   description               = "This is example"
+  enabled                   = true
 
   tags = {
     Environment = "prod"
@@ -78,6 +79,7 @@ module "ecs_scheduled_task" {
 | cpu                       | The number of cpu units used by the task.                                         | string |         `256`          |    no    |
 | description               | The description of the all resources.                                             | string | `Managed by Terraform` |    no    |
 | ecs_task_execution_policy | The ecs task execution policy document. This is a JSON formatted string.          | string |        `` | no         |
+| enabled                   | Set to false to prevent the module from creating anything.                        | string |         `true`         |    no    |
 | iam_path                  | Path in which to create the IAM Role and the IAM Policy.                          | string |          `/`           |    no    |
 | is_enabled                | Whether the rule should be enabled.                                               | string |         `true`         |    no    |
 | memory                    | The amount (in MiB) of memory used by the task.                                   | string |         `512`          |    no    |
