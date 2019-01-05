@@ -4,6 +4,8 @@
 
 # https://www.terraform.io/docs/providers/aws/r/cloudwatch_event_rule.html
 resource "aws_cloudwatch_event_rule" "default" {
+  count = "${var.enabled}"
+
   name        = "${var.name}"
   description = "${var.description}"
   is_enabled  = "${var.is_enabled}"
@@ -17,6 +19,8 @@ resource "aws_cloudwatch_event_rule" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/cloudwatch_event_target.html
 resource "aws_cloudwatch_event_target" "default" {
+  count = "${var.enabled}"
+
   target_id = "${var.name}"
   arn       = "${var.cluster_arn}"
   rule      = "${aws_cloudwatch_event_rule.default.name}"
@@ -58,6 +62,8 @@ resource "aws_cloudwatch_event_target" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_role.html
 resource "aws_iam_role" "ecs_events" {
+  count = "${var.enabled}"
+
   name               = "${local.ecs_events_iam_name}"
   assume_role_policy = "${data.aws_iam_policy_document.ecs_events_assume_role_policy.json}"
   path               = "${var.iam_path}"
@@ -78,6 +84,8 @@ data "aws_iam_policy_document" "ecs_events_assume_role_policy" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_policy.html
 resource "aws_iam_policy" "ecs_events" {
+  count = "${var.enabled}"
+
   name        = "${local.ecs_events_iam_name}"
   policy      = "${data.aws_iam_policy.aws_ecs_events_role.policy}"
   path        = "${var.iam_path}"
@@ -90,6 +98,8 @@ data "aws_iam_policy" "aws_ecs_events_role" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_role_policy_attachment.html
 resource "aws_iam_role_policy_attachment" "ecs_events" {
+  count = "${var.enabled}"
+
   role       = "${aws_iam_role.ecs_events.name}"
   policy_arn = "${aws_iam_policy.ecs_events.arn}"
 }
@@ -104,6 +114,8 @@ locals {
 
 # https://www.terraform.io/docs/providers/aws/r/ecs_task_definition.html
 resource "aws_ecs_task_definition" "default" {
+  count = "${var.enabled}"
+
   # A unique name for your task definition.
   family = "${var.name}"
 
@@ -144,6 +156,8 @@ resource "aws_ecs_task_definition" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_role.html
 resource "aws_iam_role" "ecs_task_execution" {
+  count = "${var.enabled}"
+
   name               = "${local.ecs_task_execution_iam_name}"
   assume_role_policy = "${data.aws_iam_policy_document.ecs_task_execution_assume_role_policy.json}"
   path               = "${var.iam_path}"
@@ -164,6 +178,8 @@ data "aws_iam_policy_document" "ecs_task_execution_assume_role_policy" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_policy.html
 resource "aws_iam_policy" "ecs_task_execution" {
+  count = "${var.enabled}"
+
   name        = "${local.ecs_task_execution_iam_name}"
   policy      = "${local.ecs_task_execution_policy}"
   path        = "${var.iam_path}"
@@ -172,6 +188,8 @@ resource "aws_iam_policy" "ecs_task_execution" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_role_policy_attachment.html
 resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
+  count = "${var.enabled}"
+
   role       = "${aws_iam_role.ecs_task_execution.name}"
   policy_arn = "${aws_iam_policy.ecs_task_execution.arn}"
 }

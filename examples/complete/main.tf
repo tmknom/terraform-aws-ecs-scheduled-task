@@ -17,6 +17,7 @@ module "ecs_scheduled_task" {
   requires_compatibilities  = ["FARGATE"]
   iam_path                  = "/service_role/"
   description               = "This is example"
+  enabled                   = true
 
   tags = {
     Environment = "prod"
