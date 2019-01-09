@@ -87,12 +87,12 @@ resource "aws_iam_policy" "ecs_events" {
   count = "${var.enabled}"
 
   name        = "${local.ecs_events_iam_name}"
-  policy      = "${data.aws_iam_policy.aws_ecs_events_role.policy}"
+  policy      = "${data.aws_iam_policy.ecs_events.policy}"
   path        = "${var.iam_path}"
   description = "${var.description}"
 }
 
-data "aws_iam_policy" "aws_ecs_events_role" {
+data "aws_iam_policy" "ecs_events" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
 }
 
