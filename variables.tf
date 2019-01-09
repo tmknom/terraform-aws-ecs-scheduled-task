@@ -100,3 +100,15 @@ variable "enabled" {
   type        = "string"
   description = "Set to false to prevent the module from creating anything."
 }
+
+variable "create_ecs_events_role" {
+  default     = true
+  type        = "string"
+  description = "Specify true to indicate that CloudWatch Events IAM Role creation."
+}
+
+variable "ecs_events_role_arn" {
+  default     = ""
+  type        = "string"
+  description = "The ARN of the CloudWatch Events IAM Role."
+}

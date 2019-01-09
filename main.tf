@@ -24,7 +24,7 @@ resource "aws_cloudwatch_event_target" "default" {
   target_id = "${var.name}"
   arn       = "${var.cluster_arn}"
   rule      = "${aws_cloudwatch_event_rule.default.name}"
-  role_arn  = "${aws_iam_role.ecs_events.arn}"
+  role_arn  = "${var.create_ecs_events_role ? join("", aws_iam_role.ecs_events.*.arn) : var.ecs_events_role_arn}"
 
   # Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task.
   # https://docs.aws.amazon.com/AmazonCloudWatchEvents/latest/APIReference/API_EcsParameters.html
@@ -62,7 +62,7 @@ resource "aws_cloudwatch_event_target" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_role.html
 resource "aws_iam_role" "ecs_events" {
-  count = "${var.enabled}"
+  count = "${local.enabled_ecs_events}"
 
   name               = "${local.ecs_events_iam_name}"
   assume_role_policy = "${data.aws_iam_policy_document.ecs_events_assume_role_policy.json}"
@@ -84,7 +84,7 @@ data "aws_iam_policy_document" "ecs_events_assume_role_policy" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_policy.html
 resource "aws_iam_policy" "ecs_events" {
-  count = "${var.enabled}"
+  count = "${local.enabled_ecs_events}"
 
   name        = "${local.ecs_events_iam_name}"
   policy      = "${data.aws_iam_policy.ecs_events.policy}"
@@ -98,7 +98,7 @@ data "aws_iam_policy" "ecs_events" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_role_policy_attachment.html
 resource "aws_iam_role_policy_attachment" "ecs_events" {
-  count = "${var.enabled}"
+  count = "${local.enabled_ecs_events}"
 
   role       = "${aws_iam_role.ecs_events.name}"
   policy_arn = "${aws_iam_policy.ecs_events.arn}"
@@ -106,6 +106,7 @@ resource "aws_iam_role_policy_attachment" "ecs_events" {
 
 locals {
   ecs_events_iam_name = "${var.name}-ecs-events"
+  enabled_ecs_events  = "${var.enabled && var.create_ecs_events_role ? 1 : 0}"
 }
 
 # ECS Task Definitions
