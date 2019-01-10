@@ -6,17 +6,17 @@ module "ecs_scheduled_task" {
   cluster_arn           = "${aws_ecs_cluster.example.arn}"
   subnets               = ["${module.vpc.public_subnet_ids}"]
 
-  is_enabled                = true
-  task_count                = 1
-  platform_version          = "1.3.0"
-  assign_public_ip          = true
-  security_groups           = []
-  cpu                       = 256
-  memory                    = 512
-  requires_compatibilities  = ["FARGATE"]
-  iam_path                  = "/service_role/"
-  description               = "This is example"
-  enabled                   = true
+  is_enabled               = true
+  task_count               = 1
+  platform_version         = "1.3.0"
+  assign_public_ip         = true
+  security_groups          = []
+  cpu                      = 256
+  memory                   = 512
+  requires_compatibilities = ["FARGATE"]
+  iam_path                 = "/service_role/"
+  description              = "This is example"
+  enabled                  = true
 
   create_ecs_events_role = false
   ecs_events_role_arn    = "${aws_iam_role.ecs_events.arn}"
