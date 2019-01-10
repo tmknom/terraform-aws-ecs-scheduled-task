@@ -71,12 +71,6 @@ variable "requires_compatibilities" {
   description = "A set of launch types required by the task. The valid values are EC2 and FARGATE."
 }
 
-variable "ecs_task_execution_policy" {
-  default     = ""
-  type        = "string"
-  description = "The ecs task execution policy document. This is a JSON formatted string."
-}
-
 variable "iam_path" {
   default     = "/"
   type        = "string"
