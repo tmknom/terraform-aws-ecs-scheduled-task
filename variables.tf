@@ -112,3 +112,15 @@ variable "ecs_events_role_arn" {
   type        = "string"
   description = "The ARN of the CloudWatch Events IAM Role."
 }
+
+variable "create_ecs_task_execution_role" {
+  default     = true
+  type        = "string"
+  description = "Specify true to indicate that ECS Task Execution IAM Role creation."
+}
+
+variable "ecs_task_execution_role_arn" {
+  default     = ""
+  type        = "string"
+  description = "The ARN of the ECS Task Execution IAM Role."
+}

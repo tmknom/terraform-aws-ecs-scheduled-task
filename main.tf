@@ -121,7 +121,7 @@ resource "aws_ecs_task_definition" "default" {
   family = "${var.name}"
 
   # The ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume.
-  execution_role_arn = "${aws_iam_role.ecs_task_execution.arn}"
+  execution_role_arn = "${var.create_ecs_task_execution_role ? join("", aws_iam_role.ecs_task_execution.*.arn) : var.ecs_task_execution_role_arn}"
 
   # A list of container definitions in JSON format that describe the different containers that make up your task.
   # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#container_definitions
@@ -157,7 +157,7 @@ resource "aws_ecs_task_definition" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_role.html
 resource "aws_iam_role" "ecs_task_execution" {
-  count = "${var.enabled}"
+  count = "${local.enabled_ecs_task_execution}"
 
   name               = "${local.ecs_task_execution_iam_name}"
   assume_role_policy = "${data.aws_iam_policy_document.ecs_task_execution_assume_role_policy.json}"
@@ -179,7 +179,7 @@ data "aws_iam_policy_document" "ecs_task_execution_assume_role_policy" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_policy.html
 resource "aws_iam_policy" "ecs_task_execution" {
-  count = "${var.enabled}"
+  count = "${local.enabled_ecs_task_execution}"
 
   name        = "${local.ecs_task_execution_iam_name}"
   policy      = "${local.ecs_task_execution_policy}"
@@ -189,7 +189,7 @@ resource "aws_iam_policy" "ecs_task_execution" {
 
 # https://www.terraform.io/docs/providers/aws/r/iam_role_policy_attachment.html
 resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
-  count = "${var.enabled}"
+  count = "${local.enabled_ecs_task_execution}"
 
   role       = "${aws_iam_role.ecs_task_execution.name}"
   policy_arn = "${aws_iam_policy.ecs_task_execution.arn}"
@@ -198,6 +198,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
 locals {
   ecs_task_execution_iam_name = "${var.name}-ecs-task-execution"
   ecs_task_execution_policy   = "${var.ecs_task_execution_policy == "" ? data.aws_iam_policy.ecs_task_execution.policy : var.ecs_task_execution_policy}"
+  enabled_ecs_task_execution  = "${var.enabled && var.create_ecs_task_execution_role ? 1 : 0}"
 }
 
 data "aws_iam_policy" "ecs_task_execution" {
