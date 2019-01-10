@@ -6,7 +6,6 @@ module "ecs_scheduled_task" {
   cluster_arn           = "${aws_ecs_cluster.example.arn}"
   subnets               = ["${module.vpc.public_subnet_ids}"]
 
-  ecs_task_execution_policy = "${data.aws_iam_policy.ecs_task_execution.policy}"
   is_enabled                = true
   task_count                = 1
   platform_version          = "1.3.0"
