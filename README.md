@@ -42,18 +42,23 @@ module "ecs_scheduled_task" {
   cluster_arn           = "${var.cluster_arn}"
   subnets               = ["${var.subnets}"]
 
-  ecs_task_execution_policy = "${var.ecs_task_execution_policy}"
-  is_enabled                = true
-  task_count                = 1
-  platform_version          = "1.3.0"
-  assign_public_ip          = true
-  security_groups           = []
-  cpu                       = 256
-  memory                    = 512
-  requires_compatibilities  = ["FARGATE"]
-  iam_path                  = "/service_role/"
-  description               = "This is example"
-  enabled                   = true
+  is_enabled               = true
+  task_count               = 1
+  platform_version         = "1.3.0"
+  assign_public_ip         = true
+  security_groups          = []
+  cpu                      = 256
+  memory                   = 512
+  requires_compatibilities = ["FARGATE"]
+  iam_path                 = "/service_role/"
+  description              = "This is example"
+  enabled                  = true
+
+  create_ecs_events_role = false
+  ecs_events_role_arn    = "${var.ecs_events_role_arn}"
+
+  create_ecs_task_execution_role = false
+  ecs_task_execution_role_arn    = "${var.ecs_events_role_arn}"
 
   tags = {
     Environment = "prod"
@@ -68,26 +73,29 @@ module "ecs_scheduled_task" {
 
 ## Inputs
 
-| Name                      | Description                                                                       |  Type  |        Default         | Required |
-| ------------------------- | --------------------------------------------------------------------------------- | :----: | :--------------------: | :------: |
-| cluster_arn               | ARN of an ECS cluster.                                                            | string |           -            |   yes    |
-| container_definitions     | A list of valid container definitions provided as a single valid JSON document.   | string |           -            |   yes    |
-| name                      | The name of ecs task definition.                                                  | string |           -            |   yes    |
-| schedule_expression       | The scheduling expression.For example, `cron(0 20 * * ? *)` or `rate(5 minutes)`. | string |           -            |   yes    |
-| subnets                   | The subnets associated with the task or service.                                  |  list  |           -            |   yes    |
-| assign_public_ip          | Assign a public IP address to the ENI (Fargate launch type only).                 | string |        `false`         |    no    |
-| cpu                       | The number of cpu units used by the task.                                         | string |         `256`          |    no    |
-| description               | The description of the all resources.                                             | string | `Managed by Terraform` |    no    |
-| ecs_task_execution_policy | The ecs task execution policy document. This is a JSON formatted string.          | string |        `` | no         |
-| enabled                   | Set to false to prevent the module from creating anything.                        | string |         `true`         |    no    |
-| iam_path                  | Path in which to create the IAM Role and the IAM Policy.                          | string |          `/`           |    no    |
-| is_enabled                | Whether the rule should be enabled.                                               | string |         `true`         |    no    |
-| memory                    | The amount (in MiB) of memory used by the task.                                   | string |         `512`          |    no    |
-| platform_version          | Specifies the platform version for the task.                                      | string |        `LATEST`        |    no    |
-| requires_compatibilities  | A set of launch types required by the task. The valid values are EC2 and FARGATE. |  list  |    `[ "FARGATE" ]`     |    no    |
-| security_groups           | The security groups associated with the task or service.                          |  list  |          `[]`          |    no    |
-| tags                      | A mapping of tags to assign to all resources.                                     |  map   |          `{}`          |    no    |
-| task_count                | The number of tasks to create based on the TaskDefinition.                        | string |          `1`           |    no    |
+| Name                           | Description                                                                       |  Type  |        Default         | Required |
+| ------------------------------ | --------------------------------------------------------------------------------- | :----: | :--------------------: | :------: |
+| cluster_arn                    | ARN of an ECS cluster.                                                            | string |           -            |   yes    |
+| container_definitions          | A list of valid container definitions provided as a single valid JSON document.   | string |           -            |   yes    |
+| name                           | The name of ecs task definition.                                                  | string |           -            |   yes    |
+| schedule_expression            | The scheduling expression.For example, `cron(0 20 * * ? *)` or `rate(5 minutes)`. | string |           -            |   yes    |
+| subnets                        | The subnets associated with the task or service.                                  |  list  |           -            |   yes    |
+| assign_public_ip               | Assign a public IP address to the ENI (Fargate launch type only).                 | string |        `false`         |    no    |
+| cpu                            | The number of cpu units used by the task.                                         | string |         `256`          |    no    |
+| create_ecs_events_role         | Specify true to indicate that CloudWatch Events IAM Role creation.                | string |         `true`         |    no    |
+| create_ecs_task_execution_role | Specify true to indicate that ECS Task Execution IAM Role creation.               | string |         `true`         |    no    |
+| description                    | The description of the all resources.                                             | string | `Managed by Terraform` |    no    |
+| ecs_events_role_arn            | The ARN of the CloudWatch Events IAM Role.                                        | string |        `` | no         |
+| ecs_task_execution_role_arn    | The ARN of the ECS Task Execution IAM Role.                                       | string |        `` | no         |
+| enabled                        | Set to false to prevent the module from creating anything.                        | string |         `true`         |    no    |
+| iam_path                       | Path in which to create the IAM Role and the IAM Policy.                          | string |          `/`           |    no    |
+| is_enabled                     | Whether the rule should be enabled.                                               | string |         `true`         |    no    |
+| memory                         | The amount (in MiB) of memory used by the task.                                   | string |         `512`          |    no    |
+| platform_version               | Specifies the platform version for the task.                                      | string |        `LATEST`        |    no    |
+| requires_compatibilities       | A set of launch types required by the task. The valid values are EC2 and FARGATE. |  list  |    `[ "FARGATE" ]`     |    no    |
+| security_groups                | The security groups associated with the task or service.                          |  list  |          `[]`          |    no    |
+| tags                           | A mapping of tags to assign to all resources.                                     |  map   |          `{}`          |    no    |
+| task_count                     | The number of tasks to create based on the TaskDefinition.                        | string |          `1`           |    no    |
 
 ## Outputs
 
