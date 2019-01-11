@@ -182,7 +182,7 @@ resource "aws_iam_policy" "ecs_task_execution" {
   count = "${local.enabled_ecs_task_execution}"
 
   name        = "${local.ecs_task_execution_iam_name}"
-  policy      = "${local.ecs_task_execution_policy}"
+  policy      = "${data.aws_iam_policy.ecs_task_execution.policy}"
   path        = "${var.iam_path}"
   description = "${var.description}"
 }
@@ -197,7 +197,6 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
 
 locals {
   ecs_task_execution_iam_name = "${var.name}-ecs-task-execution"
-  ecs_task_execution_policy   = "${var.ecs_task_execution_policy == "" ? data.aws_iam_policy.ecs_task_execution.policy : var.ecs_task_execution_policy}"
   enabled_ecs_task_execution  = "${var.enabled && var.create_ecs_task_execution_role ? 1 : 0}"
 }
 
