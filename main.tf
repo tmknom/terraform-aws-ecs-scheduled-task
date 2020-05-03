@@ -68,12 +68,7 @@ resource "aws_iam_role" "ecs_events" {
   assume_role_policy = data.aws_iam_policy_document.ecs_events_assume_role_policy.json
   path               = var.iam_path
   description        = var.description
-  tags = merge(
-    {
-      "Name" = local.ecs_events_iam_name
-    },
-    var.tags,
-  )
+  tags               = merge({ "Name" = local.ecs_events_iam_name }, var.tags)
 }
 
 data "aws_iam_policy_document" "ecs_events_assume_role_policy" {
@@ -153,12 +148,7 @@ resource "aws_ecs_task_definition" "default" {
   network_mode = "awsvpc"
 
   # A mapping of tags to assign to the resource.
-  tags = merge(
-    {
-      "Name" = var.name
-    },
-    var.tags,
-  )
+  tags = merge({ "Name" = var.name }, var.tags)
 }
 
 # ECS Task Execution IAM Role
@@ -173,12 +163,7 @@ resource "aws_iam_role" "ecs_task_execution" {
   assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_assume_role_policy.json
   path               = var.iam_path
   description        = var.description
-  tags = merge(
-    {
-      "Name" = local.ecs_task_execution_iam_name
-    },
-    var.tags,
-  )
+  tags               = merge({ "Name" = local.ecs_task_execution_iam_name }, var.tags)
 }
 
 data "aws_iam_policy_document" "ecs_task_execution_assume_role_policy" {
@@ -218,4 +203,3 @@ locals {
 data "aws_iam_policy" "ecs_task_execution" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
-

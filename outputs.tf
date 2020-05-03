@@ -127,4 +127,3 @@ output "ecs_task_execution_policy_document" {
   value       = join("", aws_iam_policy.ecs_task_execution.*.policy)
   description = "The policy document of the ECS Task Execution IAM Policy."
 }
-
