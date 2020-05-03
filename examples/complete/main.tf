@@ -2,9 +2,9 @@ module "ecs_scheduled_task" {
   source                = "../../"
   name                  = "example"
   schedule_expression   = "rate(3 minutes)"
-  container_definitions = "${data.template_file.default.rendered}"
-  cluster_arn           = "${aws_ecs_cluster.example.arn}"
-  subnets               = ["${module.vpc.public_subnet_ids}"]
+  container_definitions = data.template_file.default.rendered
+  cluster_arn           = aws_ecs_cluster.example.arn
+  subnets               = [module.vpc.public_subnet_ids]
 
   is_enabled               = true
   task_count               = 1
@@ -19,10 +19,10 @@ module "ecs_scheduled_task" {
   enabled                  = true
 
   create_ecs_events_role = false
-  ecs_events_role_arn    = "${aws_iam_role.ecs_events.arn}"
+  ecs_events_role_arn    = aws_iam_role.ecs_events.arn
 
   create_ecs_task_execution_role = false
-  ecs_task_execution_role_arn    = "${aws_iam_role.ecs_task_execution.arn}"
+  ecs_task_execution_role_arn    = aws_iam_role.ecs_task_execution.arn
 
   tags = {
     Environment = "prod"
@@ -31,7 +31,7 @@ module "ecs_scheduled_task" {
 
 resource "aws_iam_role" "ecs_events" {
   name               = "ecs-events-for-ecs-scheduled-task"
-  assume_role_policy = "${data.aws_iam_policy_document.ecs_events_assume_role_policy.json}"
+  assume_role_policy = data.aws_iam_policy_document.ecs_events_assume_role_policy.json
 }
 
 data "aws_iam_policy_document" "ecs_events_assume_role_policy" {
@@ -46,8 +46,8 @@ data "aws_iam_policy_document" "ecs_events_assume_role_policy" {
 }
 
 resource "aws_iam_policy" "ecs_events" {
-  name   = "${aws_iam_role.ecs_events.name}"
-  policy = "${data.aws_iam_policy.ecs_events.policy}"
+  name   = aws_iam_role.ecs_events.name
+  policy = data.aws_iam_policy.ecs_events.policy
 }
 
 data "aws_iam_policy" "ecs_events" {
@@ -55,13 +55,13 @@ data "aws_iam_policy" "ecs_events" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_events" {
-  role       = "${aws_iam_role.ecs_events.name}"
-  policy_arn = "${aws_iam_policy.ecs_events.arn}"
+  role       = aws_iam_role.ecs_events.name
+  policy_arn = aws_iam_policy.ecs_events.arn
 }
 
 resource "aws_iam_role" "ecs_task_execution" {
   name               = "ecs-task-execution-for-ecs-scheduled-task"
-  assume_role_policy = "${data.aws_iam_policy_document.ecs_task_execution_assume_role_policy.json}"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_assume_role_policy.json
 }
 
 data "aws_iam_policy_document" "ecs_task_execution_assume_role_policy" {
@@ -76,8 +76,8 @@ data "aws_iam_policy_document" "ecs_task_execution_assume_role_policy" {
 }
 
 resource "aws_iam_policy" "ecs_task_execution" {
-  name   = "${aws_iam_role.ecs_task_execution.name}"
-  policy = "${data.aws_iam_policy.ecs_task_execution.policy}"
+  name   = aws_iam_role.ecs_task_execution.name
+  policy = data.aws_iam_policy.ecs_task_execution.policy
 }
 
 data "aws_iam_policy" "ecs_task_execution" {
@@ -85,21 +85,21 @@ data "aws_iam_policy" "ecs_task_execution" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
-  role       = "${aws_iam_role.ecs_task_execution.name}"
-  policy_arn = "${aws_iam_policy.ecs_task_execution.arn}"
+  role       = aws_iam_role.ecs_task_execution.name
+  policy_arn = aws_iam_policy.ecs_task_execution.arn
 }
 
 data "template_file" "default" {
-  template = "${file("${path.module}/container_definitions.json")}"
+  template = file("${path.module}/container_definitions.json")
 
-  vars {
-    awslogs_region = "${data.aws_region.current.name}"
-    awslogs_group  = "${local.awslogs_group}"
+  vars = {
+    awslogs_region = data.aws_region.current.name
+    awslogs_group  = local.awslogs_group
   }
 }
 
 resource "aws_cloudwatch_log_group" "example" {
-  name              = "${local.awslogs_group}"
+  name              = local.awslogs_group
   retention_in_days = 1
 }
 
@@ -113,10 +113,10 @@ resource "aws_ecs_cluster" "example" {
 
 module "vpc" {
   source                    = "git::https://github.com/tmknom/terraform-aws-vpc.git?ref=tags/1.0.0"
-  cidr_block                = "${local.cidr_block}"
+  cidr_block                = local.cidr_block
   name                      = "ecs-scheduled-task"
-  public_subnet_cidr_blocks = ["${cidrsubnet(local.cidr_block, 8, 0)}", "${cidrsubnet(local.cidr_block, 8, 1)}"]
-  public_availability_zones = ["${data.aws_availability_zones.available.names}"]
+  public_subnet_cidr_blocks = [cidrsubnet(local.cidr_block, 8, 0), cidrsubnet(local.cidr_block, 8, 1)]
+  public_availability_zones = [data.aws_availability_zones.available.names]
 }
 
 locals {
