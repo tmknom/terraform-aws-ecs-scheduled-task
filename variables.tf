@@ -36,7 +36,7 @@ variable "task_count" {
 }
 
 variable "platform_version" {
-  default     = "LATEST"
+  default     = "1.4.0"
   type        = string
   description = "Specifies the platform version for the task."
 }

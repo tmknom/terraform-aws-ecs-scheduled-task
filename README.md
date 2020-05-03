@@ -47,7 +47,7 @@ module "ecs_scheduled_task" {
 
   is_enabled               = true
   task_count               = 1
-  platform_version         = "1.3.0"
+  platform_version         = "LATEST"
   assign_public_ip         = true
   security_groups          = []
   cpu                      = 256
@@ -108,7 +108,7 @@ module "ecs_scheduled_task" {
 | iam_path                       | Path in which to create the IAM Role and the IAM Policy.                          | `string`       | `"/"`                           |    no    |
 | is_enabled                     | Whether the rule should be enabled.                                               | `string`       | `true`                          |    no    |
 | memory                         | The amount (in MiB) of memory used by the task.                                   | `string`       | `"512"`                         |    no    |
-| platform_version               | Specifies the platform version for the task.                                      | `string`       | `"LATEST"`                      |    no    |
+| platform_version               | Specifies the platform version for the task.                                      | `string`       | `"1.4.0"`                       |    no    |
 | requires_compatibilities       | A set of launch types required by the task. The valid values are EC2 and FARGATE. | `list(string)` | <pre>[<br> "FARGATE"<br>]</pre> |    no    |
 | security_groups                | The security groups associated with the task or service.                          | `list(string)` | `[]`                            |    no    |
 | tags                           | A mapping of tags to assign to all resources.                                     | `map(string)`  | `{}`                            |    no    |
