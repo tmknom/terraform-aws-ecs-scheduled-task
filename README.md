@@ -22,12 +22,12 @@ This module provides recommended settings:
 
 ```hcl
 module "ecs_scheduled_task" {
-  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/1.2.0"
+  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/2.0.0"
   name                  = "example"
   schedule_expression   = "rate(3 minutes)"
-  container_definitions = "${var.container_definitions}"
-  cluster_arn           = "${var.cluster_arn}"
-  subnets               = ["${var.subnets}"]
+  container_definitions = var.container_definitions
+  cluster_arn           = var.cluster_arn
+  subnets               = var.subnets
 }
 ```
 
@@ -35,12 +35,12 @@ module "ecs_scheduled_task" {
 
 ```hcl
 module "ecs_scheduled_task" {
-  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/1.2.0"
+  source                = "git::https://github.com/tmknom/terraform-aws-ecs-scheduled-task.git?ref=tags/2.0.0"
   name                  = "example"
   schedule_expression   = "rate(3 minutes)"
-  container_definitions = "${var.container_definitions}"
-  cluster_arn           = "${var.cluster_arn}"
-  subnets               = ["${var.subnets}"]
+  container_definitions = var.container_definitions
+  cluster_arn           = var.cluster_arn
+  subnets               = var.subnets
 
   is_enabled               = true
   task_count               = 1
@@ -55,10 +55,10 @@ module "ecs_scheduled_task" {
   enabled                  = true
 
   create_ecs_events_role = false
-  ecs_events_role_arn    = "${var.ecs_events_role_arn}"
+  ecs_events_role_arn    = var.ecs_events_role_arn
 
   create_ecs_task_execution_role = false
-  ecs_task_execution_role_arn    = "${var.ecs_events_role_arn}"
+  ecs_task_execution_role_arn    = var.ecs_events_role_arn
 
   tags = {
     Environment = "prod"
