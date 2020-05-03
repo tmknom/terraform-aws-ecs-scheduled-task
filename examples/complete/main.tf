@@ -1,10 +1,11 @@
 module "ecs_scheduled_task" {
-  source                = "../../"
-  name                  = "example"
-  schedule_expression   = "rate(3 minutes)"
+  source              = "../../"
+  name                = "example"
+  schedule_expression = "rate(3 minutes)"
+  cluster_arn         = aws_ecs_cluster.example.arn
+  subnets             = module.vpc.public_subnet_ids
+
   container_definitions = data.template_file.default.rendered
-  cluster_arn           = aws_ecs_cluster.example.arn
-  subnets               = module.vpc.public_subnet_ids
 
   is_enabled               = true
   task_count               = 1
