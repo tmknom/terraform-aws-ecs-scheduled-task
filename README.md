@@ -1,6 +1,9 @@
 # terraform-aws-ecs-scheduled-task
 
-[![CircleCI](https://circleci.com/gh/tmknom/terraform-aws-ecs-scheduled-task.svg?style=svg)](https://circleci.com/gh/tmknom/terraform-aws-ecs-scheduled-task)
+[![Terraform Actions Status](https://github.com/tmknom/terraform-aws-ecs-scheduled-task/workflows/Terraform/badge.svg)](https://github.com/tmknom/terraform-aws-ecs-scheduled-task/actions?query=workflow%3ATerraform)
+[![Markdown Actions Status](https://github.com/tmknom/terraform-aws-ecs-scheduled-task/workflows/Markdown/badge.svg)](https://github.com/tmknom/terraform-aws-ecs-scheduled-task/actions?query=workflow%3AMarkdown)
+[![YAML Actions Status](https://github.com/tmknom/terraform-aws-ecs-scheduled-task/workflows/YAML/badge.svg)](https://github.com/tmknom/terraform-aws-ecs-scheduled-task/actions?query=workflow%3AYAML)
+[![JSON Actions Status](https://github.com/tmknom/terraform-aws-ecs-scheduled-task/workflows/JSON/badge.svg)](https://github.com/tmknom/terraform-aws-ecs-scheduled-task/actions?query=workflow%3AJSON)
 [![GitHub tag](https://img.shields.io/github/tag/tmknom/terraform-aws-ecs-scheduled-task.svg)](https://registry.terraform.io/modules/tmknom/ecs-scheduled-task/aws)
 [![License](https://img.shields.io/github/license/tmknom/terraform-aws-ecs-scheduled-task.svg)](https://opensource.org/licenses/Apache-2.0)
 
