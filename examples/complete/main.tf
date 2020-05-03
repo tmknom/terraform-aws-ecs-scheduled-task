@@ -4,7 +4,7 @@ module "ecs_scheduled_task" {
   schedule_expression   = "rate(3 minutes)"
   container_definitions = data.template_file.default.rendered
   cluster_arn           = aws_ecs_cluster.example.arn
-  subnets               = [module.vpc.public_subnet_ids]
+  subnets               = module.vpc.public_subnet_ids
 
   is_enabled               = true
   task_count               = 1
@@ -112,11 +112,11 @@ resource "aws_ecs_cluster" "example" {
 }
 
 module "vpc" {
-  source                    = "git::https://github.com/tmknom/terraform-aws-vpc.git?ref=tags/1.0.0"
+  source                    = "git::https://github.com/tmknom/terraform-aws-vpc.git?ref=tags/2.0.1"
   cidr_block                = local.cidr_block
   name                      = "ecs-scheduled-task"
   public_subnet_cidr_blocks = [cidrsubnet(local.cidr_block, 8, 0), cidrsubnet(local.cidr_block, 8, 1)]
-  public_availability_zones = [data.aws_availability_zones.available.names]
+  public_availability_zones = data.aws_availability_zones.available.names
 }
 
 locals {
