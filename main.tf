@@ -4,7 +4,7 @@
 
 # https://www.terraform.io/docs/providers/aws/r/cloudwatch_event_rule.html
 resource "aws_cloudwatch_event_rule" "default" {
-  count = "${var.enabled == true ? 1 : 0}"
+  count = var.enabled ? 1 : 0
 
   name        = var.name
   description = var.description
@@ -19,7 +19,7 @@ resource "aws_cloudwatch_event_rule" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/cloudwatch_event_target.html
 resource "aws_cloudwatch_event_target" "default" {
-  count = "${var.enabled == true ? 1 : 0}"
+  count = var.enabled ? 1 : 0
 
   target_id = var.name
   arn       = var.cluster_arn
@@ -120,7 +120,7 @@ locals {
 
 # https://www.terraform.io/docs/providers/aws/r/ecs_task_definition.html
 resource "aws_ecs_task_definition" "default" {
-  count = "${var.enabled == true ? 1 : 0}"
+  count = var.enabled ? 1 : 0
 
   # A unique name for your task definition.
   family = var.name
