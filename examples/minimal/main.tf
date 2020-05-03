@@ -5,18 +5,24 @@ module "ecs_scheduled_task" {
   cluster_arn         = aws_ecs_cluster.example.arn
   subnets             = module.vpc.public_subnet_ids
 
-  container_definitions = data.template_file.default.rendered
+  container_definitions = jsonencode([
+    {
+      name      = "alpine"
+      image     = "alpine:latest"
+      essential = true
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = local.awslogs_group
+          awslogs-region        = data.aws_region.current.name
+          awslogs-stream-prefix = "date"
+        }
+      }
+      command = ["/bin/date"]
+    }
+  ])
 
   assign_public_ip = true
-}
-
-data "template_file" "default" {
-  template = file("${path.module}/container_definitions.json")
-
-  vars = {
-    awslogs_region = data.aws_region.current.name
-    awslogs_group  = local.awslogs_group
-  }
 }
 
 resource "aws_cloudwatch_log_group" "example" {
