@@ -24,7 +24,7 @@ module "ecs_scheduled_task" {
 
   is_enabled               = true
   task_count               = 1
-  platform_version         = "1.3.0"
+  platform_version         = "LATEST"
   assign_public_ip         = true
   security_groups          = []
   cpu                      = 256
