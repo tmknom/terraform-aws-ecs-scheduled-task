@@ -127,3 +127,13 @@ output "ecs_task_execution_policy_document" {
   value       = join("", aws_iam_policy.ecs_task_execution.*.policy)
   description = "The policy document of the ECS Task Execution IAM Policy."
 }
+
+output "ecs_task_role_arn" {
+  value       = join("", aws_iam_role.ecs_task_role.*.arn)
+  description = "The ARN assigned by AWS to this ECS Task IAM Policy."
+}
+
+output "ecs_task_role_name" {
+  value       = join("", aws_iam_role.ecs_task_role.*.name)
+  description = "The name of the ECS Task IAM Role."
+}
