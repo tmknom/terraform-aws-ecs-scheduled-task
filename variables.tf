@@ -21,6 +21,7 @@ variable "subnets" {
 variable "container_definitions" {
   type        = string
   description = "A list of valid container definitions provided as a single valid JSON document."
+  default     = null
 }
 
 variable "is_enabled" {
@@ -63,6 +64,12 @@ variable "memory" {
   default     = "512"
   type        = string
   description = "The amount (in MiB) of memory used by the task."
+}
+
+variable "launch_type" {
+  default     = "FARGATE"
+  type        = string
+  description = "Launch type to use for ecs task"
 }
 
 variable "requires_compatibilities" {
@@ -117,4 +124,16 @@ variable "ecs_task_execution_role_arn" {
   default     = ""
   type        = string
   description = "The ARN of the ECS Task Execution IAM Role."
+}
+
+variable "create_ecs_task_definition" {
+  default     = true
+  type        = string
+  description = "Specify true to indicate that Task Definition creation."
+}
+
+variable "ecs_task_definition_arn" {
+  default     = ""
+  type        = string
+  description = "Specify true to indicate that Task Definition creation."
 }
