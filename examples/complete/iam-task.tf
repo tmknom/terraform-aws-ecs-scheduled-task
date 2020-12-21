@@ -21,7 +21,7 @@ resource "aws_iam_policy" "ecs_task_role_policy" {
 }
 
 data "aws_iam_policy_document" "ecs_task_role_policy" {
-    statement {
+  statement {
     actions = [
       "s3:list*"
     ]

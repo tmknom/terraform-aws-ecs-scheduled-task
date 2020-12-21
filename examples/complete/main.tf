@@ -40,8 +40,8 @@ module "ecs_scheduled_task" {
   create_ecs_task_execution_role = false
   ecs_task_execution_role_arn    = aws_iam_role.ecs_task_execution.arn
 
-  ecs_task_role_arn    = aws_iam_role.ecs_task.arn
-  
+  ecs_task_role_arn = aws_iam_role.ecs_task.arn
+
   tags = {
     Environment = "prod"
   }
