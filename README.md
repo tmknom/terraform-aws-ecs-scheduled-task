@@ -61,7 +61,9 @@ module "ecs_scheduled_task" {
   ecs_events_role_arn    = var.ecs_events_role_arn
 
   create_ecs_task_execution_role = false
-  ecs_task_execution_role_arn    = var.ecs_events_role_arn
+  ecs_task_execution_role_arn    = var.ecs_task_execution_role_arn
+
+  ecs_task_role_arn        = var.ecs_task_role_arn
 
   tags = {
     Environment = "prod"
@@ -104,6 +106,7 @@ module "ecs_scheduled_task" {
 | description                    | The description of the all resources.                                             | `string`       | `"Managed by Terraform"`        |    no    |
 | ecs_events_role_arn            | The ARN of the CloudWatch Events IAM Role.                                        | `string`       | `""`                            |    no    |
 | ecs_task_execution_role_arn    | The ARN of the ECS Task Execution IAM Role.                                       | `string`       | `""`                            |    no    |
+| ecs_task_role_arn              | The ARN of the ECS Task IAM Role (to access AWS services from the container).     | `string`       | `""`                            |    no    |
 | enabled                        | Set to false to prevent the module from creating anything.                        | `bool`         | `true`                          |    no    |
 | iam_path                       | Path in which to create the IAM Role and the IAM Policy.                          | `string`       | `"/"`                           |    no    |
 | is_enabled                     | Whether the rule should be enabled.                                               | `string`       | `true`                          |    no    |

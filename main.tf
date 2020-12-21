@@ -123,6 +123,9 @@ resource "aws_ecs_task_definition" "default" {
   # The ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume.
   execution_role_arn = var.create_ecs_task_execution_role ? join("", aws_iam_role.ecs_task_execution.*.arn) : var.ecs_task_execution_role_arn
 
+  # The ARN of the task role to give the container access to other AWS services
+  task_role_arn = var.ecs_task_role_arn
+
   # A list of container definitions in JSON format that describe the different containers that make up your task.
   # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#container_definitions
   container_definitions = var.container_definitions
