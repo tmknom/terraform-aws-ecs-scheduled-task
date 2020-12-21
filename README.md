@@ -63,7 +63,7 @@ module "ecs_scheduled_task" {
   create_ecs_task_execution_role = false
   ecs_task_execution_role_arn    = var.ecs_task_execution_role_arn
   
-  ecs_task_role_arn    		= var.ecs_task_role_arn
+  ecs_task_role_arn        = var.ecs_task_role_arn
 
   tags = {
     Environment = "prod"
